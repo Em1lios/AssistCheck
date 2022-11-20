@@ -36,32 +36,11 @@ export class FirebaseService {
     return collection.doc(id).collection<tipo>(subPath).doc(idClase).valueChanges();
   }
 
-/*   updateAsistenciaClase( idSeccion: string,idClase: string,newAsistencia:string,idAlumno:string) {
-    const alumno = this.db.collection('secciones').doc(idSeccion).collection('clases', (ref) => {
-      let query:
-        | firebase.firestore.CollectionReference
-        | firebase.firestore.Query = ref;
-        query.firestore.doc(idClase).update;
-        if (clase.id === idClase) {
-          query = query.where('alumnos.id_Alumno', '==', idAlumno);
-          return query;
-        }
-    }).valueChanges();
+  getSubCollDocOnce<tipo>(path: string,subPath:string, id: string,idClase: string) {
+    const collection = this.db.collection(path);
+    return collection.doc(id).collection<tipo>(subPath).doc(idClase).get();
+  }
 
-  return alumno;
-} */
-
-/*   getAlumnoClase<tipo>(id: string, tipoUser: string) {
-    const secciones = this.db.collection<tipo>('secciones', (ref) => {
-        let query:
-          | firebase.firestore.CollectionReference
-          | firebase.firestore.Query = ref;
-        query = query.where('profesor', '==', id);
-        return query;
-      }).valueChanges();
-
-    return secciones;
-  } */
 
   getSeccionUsuario<tipo>(id: string, tipoUser: string) {
     const secciones = this.db.collection<tipo>('secciones', (ref) => {

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { concat } from 'rxjs';
 import {
   AlumnoClase,
   Clase,
@@ -36,9 +37,13 @@ export class ClasePage implements OnInit {
     private interactions: InteractionService
   ) {}
 
-  ngOnInit() {
+  async ngOnInit() {
     this.getUsuario();
   }
+  async ionViewWillEnter(){
+    this.getUsuario();
+  }
+
 
   async getUsuario() {
     await this.db.getAuthUser().then((res) =>
@@ -59,8 +64,10 @@ export class ClasePage implements OnInit {
           paramMap.get('id2')
         )
         .subscribe((res) => {
+          
           this.clase = res;
-          this.value = paramMap.get('id2');
+          const codQRtemp = paramMap.get('id2')+'|'+paramMap.get('id1');
+          this.value = codQRtemp;
         });
     });
   }

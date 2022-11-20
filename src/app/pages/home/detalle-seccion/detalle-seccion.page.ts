@@ -39,9 +39,13 @@ export class DetalleSeccionPage implements OnInit {
     private scanner: BarcodeScanner
   ) {}
 
-  ngOnInit() {
+  async ngOnInit() {
     this.getUsuario();
   }
+  async ionViewWillEnter(){
+    this.getUsuario();
+  }
+
 
   async getUsuario(){
     await this.db.getAuthUser().then((res) =>
@@ -125,49 +129,56 @@ export class DetalleSeccionPage implements OnInit {
   scanCode() {
     this.scanner.scan().then((barcodeData) => {
       this.actRoute.paramMap.subscribe((aux) => {
-        this.db.getSubCollDoc<Clase>(
-            'secciones',
-            'clases',
-            aux.get('id1'),
-            barcodeData.text).subscribe(
-              (res) => {
-                const alumnos = res.alumnos;
-                const alumnosTemp = [];
-                alumnos.forEach((aux) => {
-                  if (aux['id_Alumno'] == this.usuario.id) {
-                    const alumnoClaseTemp = {
-                    id_Alumno: aux['id_Alumno'],
-                    nombre: aux['nombre'],
-                    rut: aux['rut'],
-                    asistencia: 'presente',
-                    };
-                    alumnosTemp.push(alumnoClaseTemp);
-                  } else {
-                    alumnosTemp.push(aux);
-                  }
-                });
-                var claseTemp = {
-                id: res.id,
-                alumnos: alumnosTemp,
-                fecha: res.fecha,
-                numero: res.numero,
-                };
+        var seccionId = '';
+        var claseId = '';
+        var myArray = barcodeData.text.split('|');
+        
+        claseId = myArray[0];
+        seccionId = myArray[1];
 
-                this.db.createSubCollDoc(
-                claseTemp,
-                'secciones',
-                'clases',
-                aux.get('id1'),
-                res.id).then(
-                  (res) => {
-                    this.interactions.succesToast('asistencia actualizada');
-                  },
-                  (err) => {
-                    this.interactions.errorToast('asistencia no valida');
-                  });
-              });
+        if(seccionId === aux.get('id1')){
+          this.cambiarAsistenciaAlumno(seccionId,claseId).then(
+            (res)=>{this.interactions.succesToast('presente!')}
+          );
+        } else {
+          this.interactions.errorToast('QR de otra seccion')
+        }
+
+        
       });
     });
   }
 
+  async cambiarAsistenciaAlumno(seccionId:string, claseId:string){
+    await this.db.getSubCollDocOnce<Clase>('secciones',
+      'clases',
+      seccionId,
+      claseId).subscribe(
+        (res) => {
+          const alumnos = res.data().alumnos;
+          const alumnosTemp = [];
+          alumnos.forEach((aux) => {
+            if (aux['id_Alumno'] == this.usuario.id) {
+              const alumnoClaseTemp = {
+              id_Alumno: aux['id_Alumno'],
+              nombre: aux['nombre'],
+              rut: aux['rut'],
+              asistencia: 'presente',
+              };
+              alumnosTemp.push(alumnoClaseTemp);
+            } else {
+              alumnosTemp.push(aux);
+            }
+          });
+          var claseTemp = {
+          id: res.data().id,
+          alumnos: alumnosTemp,
+          fecha: res.data().fecha,
+          numero: res.data().numero,
+          };
+
+          const actualizacion =  this.db.createSubCollDoc(claseTemp,'secciones','clases',seccionId,res.id)
+          return actualizacion
+        });
+  }
 }

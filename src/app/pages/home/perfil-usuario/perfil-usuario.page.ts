@@ -32,6 +32,9 @@ export class PerfilUsuarioPage implements OnInit {
   async ngOnInit() {
     this.getUsuario();
   }
+  async ionViewWillEnter(){
+    this.getUsuario();
+  }
 
   async getUsuario() {
     await this.db.getAuthUser().then((res) =>
