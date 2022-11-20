@@ -123,10 +123,51 @@ export class DetalleSeccionPage implements OnInit {
   }
   
   scanCode() {
-    this.scanner.scan().then(
-      barcodeData =>  {
-          this.scanedCode = barcodeData.text;
-      })
+    this.scanner.scan().then((barcodeData) => {
+      this.actRoute.paramMap.subscribe((aux) => {
+        this.db.getSubCollDoc<Clase>(
+            'secciones',
+            'clases',
+            aux.get('id1'),
+            barcodeData.text).subscribe(
+              (res) => {
+                const alumnos = res.alumnos;
+                const alumnosTemp = [];
+                alumnos.forEach((aux) => {
+                  if (aux['id_Alumno'] == this.usuario.id) {
+                    const alumnoClaseTemp = {
+                    id_Alumno: aux['id_Alumno'],
+                    nombre: aux['nombre'],
+                    rut: aux['rut'],
+                    asistencia: 'presente',
+                    };
+                    alumnosTemp.push(alumnoClaseTemp);
+                  } else {
+                    alumnosTemp.push(aux);
+                  }
+                });
+                var claseTemp = {
+                id: res.id,
+                alumnos: alumnosTemp,
+                fecha: res.fecha,
+                numero: res.numero,
+                };
+
+                this.db.createSubCollDoc(
+                claseTemp,
+                'secciones',
+                'clases',
+                aux.get('id1'),
+                res.id).then(
+                  (res) => {
+                    this.interactions.succesToast('asistencia actualizada');
+                  },
+                  (err) => {
+                    this.interactions.errorToast('asistencia no valida');
+                  });
+              });
+      });
+    });
   }
 
 }

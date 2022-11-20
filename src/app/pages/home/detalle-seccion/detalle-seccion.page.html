@@ -9,7 +9,7 @@
 
 <ion-content>
   <div *ngIf="usuario && seccion" class="i-content ion-justify-content-center">
-    <div *ngIf="usuario.tipo ==='profesor'" class="i-content-div ion-justify-content-center">
+    <div class="i-content-div ion-justify-content-center">
       <ion-card>
         <ion-card-header>
           <ion-label>
@@ -22,7 +22,7 @@
             <ion-label *ngIf="profesor">Profesor: {{ profesor.nombre }}</ion-label>
           </ion-item>
           <ion-accordion-group>
-            <ion-accordion>
+            <ion-accordion >
               <ion-item lines="full" slot="header" color="light">
                 <ion-label class="">alumnos: </ion-label>
               </ion-item>
@@ -39,7 +39,7 @@
       </ion-card>
       <ion-card>
         <ion-card-content>
-          <ion-button (click)="createClase()" expand="full" fill="solid" color="duoc">
+          <ion-button *ngIf="usuario.tipo ==='profesor'" (click)="createClase()" expand="full" fill="solid" color="duoc">
             generar clase
           </ion-button>
           <ion-button (click)="scanCode()" expand="full" fill="outline" color="primary">
@@ -51,8 +51,8 @@
               <ion-item lines="full" slot="header" color="light">
                 <ion-label class="">Clases: </ion-label>
               </ion-item>
-              <div slot="content">
-                <ion-item lines="full" *ngFor="let aux of clases" (click)="goClase(aux.id)">
+              <div slot="content" >
+                <ion-item *ngIf="usuario.tipo ==='profesor'" lines="full" *ngFor="let aux of clases" (click)="goClase(aux.id)">
                   <ion-label>Clase {{aux.numero}}</ion-label>
                   <ion-label slot="end">{{ aux.fecha }}</ion-label>
                 </ion-item>
