@@ -1,0 +1,30 @@
+.ion-color-duoc {
+	--ion-color-base: var(--ion-color-duoc);
+	--ion-color-base-rgb: var(--ion-color-duoc-rgb);
+	--ion-color-contrast: var(--ion-color-duoc-contrast);
+	--ion-color-contrast-rgb: var(--ion-color-duoc-contrast-rgb);
+	--ion-color-shade: var(--ion-color-duoc-shade);
+	--ion-color-tint: var(--ion-color-duoc-tint);
+}
+
+.logo{
+    width: 200px;
+    margin-top: 50px;
+}
+.logo-cont{
+    display: flex;
+    justify-content: center;
+}
+
+.ion-text-custom{
+    font-size: 20px;
+}
+
+.email-label{
+    font-size: 18px;
+}
+
+.recup-buttom{
+    margin-top: 25px;
+}
+

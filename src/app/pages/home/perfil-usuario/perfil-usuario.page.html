@@ -1,0 +1,73 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>Mi Perfil</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="i-content ion-justify-content-center">
+    <div class="i-content-div ion-margin ion-justify-content-center">
+      <ion-card>
+        <ion-item>
+          <ion-avatar *ngIf="usuario && usuario.img_usuario" slot="start">
+            <img src="{{ usuario.img_usuario }}" />
+          </ion-avatar>
+          <ion-avatar *ngIf="usuario && !usuario.img_usuario" slot="start">
+            <img src="https://pbs.twimg.com/media/E5as2FoWUAof9rG.jpg" />
+          </ion-avatar>
+          <ion-label *ngIf="usuario">
+            <h3>{{ usuario.nombre }}</h3>
+            <p>{{usuario.rut}}</p>
+          </ion-label>
+          
+          <ion-icon (click)="miUbicacion()" id="open-modal" slot="end" color="duoc" name="navigate-circle" class="btn-icon"></ion-icon>
+    
+        </ion-item>
+        <ion-card-header>
+          <ion-card-title>Informacion</ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          <ion-item lines="full" *ngIf="usuario">
+            <ion-label>Correo: {{usuario.correo}}</ion-label>
+            <ion-buttons slot="end">
+              <ion-back-button></ion-back-button>
+            </ion-buttons>
+          </ion-item>
+          <ion-item lines="full" *ngIf="usuario">
+            <ion-label>Tipo: {{ usuario.tipo}}</ion-label>
+          </ion-item>
+          <ion-accordion-group>
+            <ion-accordion>
+              <ion-item lines="full" slot="header" color="light" *ngIf="usuario">
+                <ion-label>Sede: {{ usuario.sede.sede }}</ion-label>
+              </ion-item>
+              <div class="ion-padding" slot="content" id="map"></div>
+            </ion-accordion>
+          </ion-accordion-group>
+        </ion-card-content>
+      </ion-card>
+    </div>
+  </div>
+  <ion-modal #modal trigger="open-modal">
+    <ng-template>
+      
+      <ion-content>
+        
+        <ion-toolbar>
+          <ion-title>Mi Ubicacion</ion-title>
+          <ion-buttons slot="end">
+            <ion-button color="light" (click)="modal.dismiss()">Cerrar</ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+        <div class="mapa-container">
+          <div id="mapGeo">
+          </div>
+        </div>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+
+</ion-content>

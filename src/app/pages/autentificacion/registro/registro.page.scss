@@ -1,0 +1,42 @@
+.ion-color-duoc {
+	--ion-color-base: var(--ion-color-duoc);
+	--ion-color-base-rgb: var(--ion-color-duoc-rgb);
+	--ion-color-contrast: var(--ion-color-duoc-contrast);
+	--ion-color-contrast-rgb: var(--ion-color-duoc-contrast-rgb);
+	--ion-color-shade: var(--ion-color-duoc-shade);
+	--ion-color-tint: var(--ion-color-duoc-tint);
+}
+
+.titulo{
+
+    color: var(--ion-color-duoc-shade);
+}
+
+
+
+.login-buttom{
+    margin-top: 25px;
+}
+
+.repass-buttom{
+    margin-top: 10px;
+}
+
+.i-content{
+    display: flex;
+    height: 100%;
+}
+.i-content-div{
+    width: 100%;
+    
+    max-width: 400px;
+}
+
+.label-sede{
+    max-width: 60px;
+    min-width: 38px;
+}
+.select-sede{
+    min-width: 80%;
+}
+

@@ -1,0 +1,59 @@
+#map{
+    width: 100%;
+    height: 270px;
+    display: block;
+}
+
+#mapGeo{
+    width: 100%;
+    height: 250px;
+    display: block;
+}
+.ion-color-duoc {
+	--ion-color-base: var(--ion-color-duoc);
+	--ion-color-base-rgb: var(--ion-color-duoc-rgb);
+	--ion-color-contrast: var(--ion-color-duoc-contrast);
+	--ion-color-contrast-rgb: var(--ion-color-duoc-contrast-rgb);
+	--ion-color-shade: var(--ion-color-duoc-shade);
+	--ion-color-tint: var(--ion-color-duoc-tint);
+}
+
+
+
+.btn-icon{
+    font-size: 2.5rem;
+}
+
+
+
+.i-content{
+    display: flex;
+    height: 100%;
+}
+.i-content-div{
+    width: 100%;
+    max-width: 400px;
+}
+
+
+
+/* modal */
+
+ion-modal {
+    --height: 308px;
+    --width: 80%;
+    --padding: 12px;
+    --max-width: 400px;
+    --border-radius: 12px;
+    --box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  }
+  
+  ion-modal::part(backdrop) {
+    background: rgba(209, 213, 219);
+    opacity: 1;
+  }
+  
+  ion-modal ion-toolbar {
+    --background: #002b45;
+    --color: white;
+  }

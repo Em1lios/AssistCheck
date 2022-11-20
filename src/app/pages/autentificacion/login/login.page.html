@@ -1,0 +1,30 @@
+<ion-content [fullscreen]="true">
+  <div class="i-content">
+    <div class="i-content-div">
+      <div class="logo-cont">
+        <img class="logo" src="assets/logo.png" alt="" />
+      </div>
+      <form [formGroup]="usuario" (ngSubmit)="login()">
+        <ion-item>
+          <ion-label color="duoc" position="floating">usuario</ion-label>
+          <ion-input formControlName="correo" type="email" placeholder="Ingrese correo"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label color="duoc" position="floating">contraseña</ion-label>
+          <ion-input  formControlName="psw" placeholder="Ingrese contraseña" type="password"></ion-input>
+        </ion-item>
+        <ion-button class="login-buttom" color="duoc" type="submit" expand="full"  shape="round" [disabled]="!usuario.valid">
+          ingresar
+        </ion-button>
+        <ion-button class="repass-buttom" color="duoc" fill="outline" expand="full" shape="round" routerLink="/registro">
+          registrarse
+        </ion-button>
+        <ion-button class="repass-buttom" color="dark" fill="clear" expand="full" shape="round" routerLink="/recuperar-psw">
+          ¿Olvidaste tu contraseña?
+        </ion-button>
+
+      </form>
+    </div>
+  </div>
+</ion-content>
+<!-- [disabled]="!usuario.valid" -->

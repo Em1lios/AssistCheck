@@ -1,0 +1,62 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>detalle-seccion</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div *ngIf="usuario && seccion" class="i-content ion-justify-content-center">
+    <div *ngIf="usuario.tipo ==='profesor'" class="i-content-div ion-justify-content-center">
+      <ion-card>
+        <ion-card-header>
+          <ion-label>
+            <h3>{{seccion.nombre}}_{{seccion.sigla}}</h3>
+            <p>{{seccion.codigo}}</p>
+          </ion-label>
+        </ion-card-header>
+        <ion-card-content>
+          <ion-item color="tertiary" lines="none">
+            <ion-label *ngIf="profesor">Profesor: {{ profesor.nombre }}</ion-label>
+          </ion-item>
+          <ion-accordion-group>
+            <ion-accordion>
+              <ion-item lines="full" slot="header" color="light">
+                <ion-label class="">alumnos: </ion-label>
+              </ion-item>
+              <div slot="content">
+                <ion-title>lista alumnos</ion-title>
+                <ion-item lines="full" *ngFor="let aux of alumnos">
+                  <ion-label>{{ aux.nombre }}</ion-label>
+                  <ion-label slot="end">{{aux.rut}}</ion-label>
+                </ion-item>
+              </div>
+            </ion-accordion>
+          </ion-accordion-group>
+        </ion-card-content>
+      </ion-card>
+      <ion-card>
+        <ion-card-content>
+          <ion-button (click)="createClase()" expand="full" fill="solid" color="duoc">
+            generar clase
+          </ion-button>
+          <ion-accordion-group>
+            <ion-accordion>
+              <ion-item lines="full" slot="header" color="light">
+                <ion-label class="">Clases: </ion-label>
+              </ion-item>
+              <div slot="content">
+                <ion-item lines="full" *ngFor="let aux of clases" (click)="goClase(aux.id)">
+                  <ion-label>Clase {{aux.numero}}</ion-label>
+                  <ion-label slot="end">{{ aux.fecha }}</ion-label>
+                </ion-item>
+              </div>
+            </ion-accordion>
+          </ion-accordion-group>
+        </ion-card-content>
+      </ion-card>
+    </div>
+  </div>
+</ion-content>
