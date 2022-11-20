@@ -11,6 +11,9 @@ import {
 import { FirebaseService } from 'src/app/services/firebase.service';
 import { InteractionService } from 'src/app/services/interaction.service';
 
+
+declare var google;
+
 @Component({
   selector: 'app-detalle-seccion',
   templateUrl: './detalle-seccion.page.html',
@@ -132,19 +135,27 @@ export class DetalleSeccionPage implements OnInit {
         var seccionId = '';
         var claseId = '';
         var myArray = barcodeData.text.split('|');
+        var distanciaSede = 0
         
         claseId = myArray[0];
         seccionId = myArray[1];
-
-        if(seccionId === aux.get('id1')){
-          this.cambiarAsistenciaAlumno(seccionId,claseId).then(
-            (res)=>{this.interactions.succesToast('presente!')}
-          );
-        } else {
-          this.interactions.errorToast('QR de otra seccion')
-        }
-
-        
+        this.getUbicacionActual().then((res) => {
+          var miUbicacion = new google.maps.LatLng(res.coords.latitude, res.coords.longitude);
+          var sede = new google.maps.LatLng(this.usuario.sede.localizacion.latitude, this.usuario.sede.localizacion.longitude);
+          distanciaSede = google.maps.geometry.spherical.computeDistanceBetween(miUbicacion, sede);
+          if(distanciaSede <= 70){
+            if(seccionId === aux.get('id1')){
+              this.cambiarAsistenciaAlumno(seccionId,claseId).then(
+                (res)=>{this.interactions.succesToast('presente!')}
+              );
+            } else {
+              this.interactions.errorToast('QR de otra seccion')
+            }
+  
+          }else {
+            this.interactions.errorToast('no se encuentra cerca de la sede')
+          } 
+        });
       });
     });
   }
@@ -180,5 +191,11 @@ export class DetalleSeccionPage implements OnInit {
           const actualizacion =  this.db.createSubCollDoc(claseTemp,'secciones','clases',seccionId,res.id)
           return actualizacion
         });
+  }
+
+  getUbicacionActual(): Promise<any> {
+    return new Promise((resolve, reject) => {
+      navigator.geolocation.getCurrentPosition(resolve, reject);
+    });
   }
 }

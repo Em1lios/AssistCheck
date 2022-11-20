@@ -21,6 +21,8 @@ export class PerfilUsuarioPage implements OnInit {
 
   mapa: any;
 
+  distancia: number;
+
   geoPointUbicacion: { lat: any; lng: any };
 
   constructor(
@@ -50,6 +52,13 @@ export class PerfilUsuarioPage implements OnInit {
           this.usuario.sede.localizacion.latitude,
           this.usuario.sede.localizacion.longitude
         );
+        this.getUbicacionActual().then((res) => {
+          var miUbicacion = new google.maps.LatLng(res.coords.latitude, res.coords.longitude);
+          var sede = new google.maps.LatLng(this.usuario.sede.localizacion.latitude, this.usuario.sede.localizacion.longitude);
+          console.log(google.maps.geometry.spherical.computeDistanceBetween(miUbicacion, sede))
+    
+          
+        });
       })
     );
   }
