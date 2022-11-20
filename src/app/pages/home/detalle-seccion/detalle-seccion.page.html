@@ -51,8 +51,14 @@
               <ion-item lines="full" slot="header" color="light">
                 <ion-label class="">Clases: </ion-label>
               </ion-item>
-              <div slot="content" >
-                <ion-item *ngIf="usuario.tipo ==='profesor'" lines="full" *ngFor="let aux of clases" (click)="goClase(aux.id)">
+              <div slot="content" *ngIf="usuario.tipo ==='profesor'">
+                <ion-item lines="full" *ngFor="let aux of clases" (click)="goClase(aux.id)">
+                  <ion-label>Clase {{aux.numero}}</ion-label>
+                  <ion-label slot="end">{{ aux.fecha }}</ion-label>
+                </ion-item>
+              </div>
+              <div slot="content" *ngIf="usuario.tipo ==='alumno' || usuario.tipo ==='admin'">
+                <ion-item lines="full" *ngFor="let aux of clases" (click)="goClase(aux.id)">
                   <ion-label>Clase {{aux.numero}}</ion-label>
                   <ion-label slot="end">{{ aux.fecha }}</ion-label>
                 </ion-item>
