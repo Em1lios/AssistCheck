@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { BarcodeScanner } from '@ionic-native/barcode-scanner/ngx';
 import {
   AlumnoDetalle,
   Clase,
@@ -16,6 +17,8 @@ import { InteractionService } from 'src/app/services/interaction.service';
   styleUrls: ['./detalle-seccion.page.scss'],
 })
 export class DetalleSeccionPage implements OnInit {
+
+  scanedCode = null;
   clases: Clase[];
 
   usuario: Usuario;
@@ -32,7 +35,8 @@ export class DetalleSeccionPage implements OnInit {
     private actRoute: ActivatedRoute,
     private db: FirebaseService,
     private router: Router,
-    private interactions: InteractionService
+    private interactions: InteractionService,
+    private scanner: BarcodeScanner
   ) {}
 
   ngOnInit() {
@@ -116,6 +120,13 @@ export class DetalleSeccionPage implements OnInit {
   goClase(id:string){
     this.router.navigateByUrl('/home/' + this.seccion.id + '/clase/' + id
     );
+  }
+  
+  scanCode() {
+    this.scanner.scan().then(
+      barcodeData =>  {
+          this.scanedCode = barcodeData.text;
+      })
   }
 
 }

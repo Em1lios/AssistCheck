@@ -42,6 +42,10 @@
           <ion-button (click)="createClase()" expand="full" fill="solid" color="duoc">
             generar clase
           </ion-button>
+          <ion-button (click)="scanCode()" expand="full" fill="outline" color="primary">
+            scanear QR
+          </ion-button>
+          <ion-label *ngIf="scanedCode" class="">{{scanedCode}}</ion-label>
           <ion-accordion-group>
             <ion-accordion>
               <ion-item lines="full" slot="header" color="light">

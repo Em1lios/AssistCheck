@@ -1,7 +1,8 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
-import { NgxQRCodeModule } from '@techiediaries/ngx-qrcode';
+
+import { BarcodeScanner } from '@ionic-native/barcode-scanner/ngx';
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 
 import { AppComponent } from './app.component';
@@ -16,10 +17,9 @@ import { environment } from 'src/environments/environment';
 @NgModule({
   declarations: [AppComponent],
   imports: [BrowserModule,AngularFireAuthModule ,IonicModule.forRoot(), AppRoutingModule
-    ,AngularFireModule.initializeApp(environment.firebaseConfig),
-    NgxQRCodeModule
+    ,AngularFireModule.initializeApp(environment.firebaseConfig)
   ],
-  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
+  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy },BarcodeScanner],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
