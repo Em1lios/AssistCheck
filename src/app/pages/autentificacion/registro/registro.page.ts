@@ -22,6 +22,10 @@ export class RegistroPage implements OnInit {
 
   sedes: any[] = [];
 
+  verificar_password: string;
+
+
+
 
   constructor( private db: FirebaseService, private router : Router, private interactions : InteractionService ) { }
 
@@ -35,12 +39,14 @@ export class RegistroPage implements OnInit {
       (res) => {
         this.sedes = res;
       }
-    )
-  }
-
-  registrarse(){
-    this.interactions.showLoading('Cargando...')
-    const sede = this.sedes.find( item => item.sede === this.usuario.value.sede)
+      )
+    }
+    
+    registrarse(){
+    
+    if( this.usuario.value.psw === this.verificar_password){
+      this.interactions.showLoading('Cargando...')
+      const sede = this.sedes.find( item => item.sede === this.usuario.value.sede)
     const dominio = this.obtenerDominio(this.usuario.value.correo);
     var tipo = '';
     if( dominio ==='profesor.duoc.cl'){
@@ -64,16 +70,23 @@ export class RegistroPage implements OnInit {
           (res) =>{
             this.router.navigateByUrl('/login')
             this.interactions.closeLoading();
-            this.interactions.succesToast('usuario registrado con exito!!')
+            this.interactions.succesSweet('usuario registrado con exito!!')
           }
         )
       },
       (error) =>{
-        console.log('estamos eror')
+        console.log('estamos error')
         this.interactions.closeLoading();
-        this.interactions.succesToast('error, no se pudo registrar usuario')  
+        this.interactions.errorSweet('error, no se pudo registrar usuario')  
       }
     )
+
+
+    } else {
+      this.interactions.errorSweet('contraseñas no coinciden!');
+      
+    }
+    
   }
   obtenerDominio(correo:string){
     const index = correo.lastIndexOf('@');

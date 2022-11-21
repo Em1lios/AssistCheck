@@ -82,8 +82,6 @@ export class PerfilUsuarioPage implements OnInit {
 
       this.mapInit(res.coords.latitude, res.coords.longitude, mapGeo);
       this.cargarMarcador(res.coords.latitude, res.coords.longitude);
-
-      console.log('se ejecuta')
     });
   }
 

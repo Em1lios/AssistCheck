@@ -3,7 +3,7 @@
     <ion-buttons slot="start">
       <ion-back-button></ion-back-button>
     </ion-buttons>
-    <ion-title>clase</ion-title>
+    <ion-title>{{ "clase" | translate }}</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -13,7 +13,7 @@
       <ion-card>
         <ion-card-header>
           <ion-label>
-            <h3>Clase {{ clase.numero}}</h3>
+            <h3>{{ "clase" | translate }} {{ clase.numero}}</h3>
             <p>{{ clase.fecha }}</p>
           </ion-label>
         </ion-card-header>
@@ -21,7 +21,7 @@
           <ion-accordion-group>
             <ion-accordion>
               <ion-item lines="full" slot="header" color="light">
-                <ion-label slot="start">Codigo QR</ion-label>
+                <ion-label slot="start">{{ "codigo qr" | translate }}</ion-label>
                 <ion-icon slot="end" name="qr-code-outline"></ion-icon>
               </ion-item>
               <div slot="content" class="div-qr">
@@ -42,7 +42,7 @@
       <ion-card>
         <ion-card-content>
           <ion-item lines="full" slot="header" color="light">
-            <ion-label>lista alumnos: </ion-label>
+            <ion-label>{{ "lista" | translate }} {{ "alumnos" | translate }}: </ion-label>
           </ion-item>
           <ion-item lines="full" *ngFor="let aux of clase.alumnos">
             <ion-label>{{ aux.nombre }}</ion-label>
@@ -56,5 +56,4 @@
       </ion-card>
     </div>
   </div>
-
 </ion-content>

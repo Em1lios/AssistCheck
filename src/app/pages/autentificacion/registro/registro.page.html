@@ -1,40 +1,40 @@
 <ion-content>
   <div class="i-content ion-justify-content-center ion-align-items-center">
     <div class="i-content-div ion-margin ion-justify-content-center ion-text-center">
-      <h3 class="titulo">REGISTRARSE</h3>
+      <h3 class="titulo">{{ "registrarse" | translate }}</h3>
       <form class="form" [formGroup]="usuario" (ngSubmit)="registrarse()">
         <ion-item lines="full">
           <ion-label color="duoc" position="floating">RUT</ion-label>
           <ion-input formControlName="rut" type="text" placeholder="12.345.678-1"></ion-input>
         </ion-item>
         <ion-item lines="full">
-          <ion-label color="duoc" position="floating">Nombre</ion-label>
+          <ion-label color="duoc" position="floating">{{ "nombre" | translate }}</ion-label>
           <ion-input formControlName="nombre" type="text" placeholder="ingrese nombre completo"></ion-input>
         </ion-item>
         <ion-item lines="full">
-          <ion-label color="duoc" position="floating">Correo</ion-label>
+          <ion-label color="duoc" position="floating">{{ "correo" | translate }}</ion-label>
           <ion-input formControlName="correo" type="text" placeholder="al.alumno@duocuc.cl"></ion-input>
         </ion-item>
         <ion-item lines="full">
-          <ion-label class="label-sede"  color="duoc">Sede</ion-label>
+          <ion-label class="label-sede"  color="duoc">{{ "sede" | translate }}</ion-label>
           <ion-select formControlName="sede" class="select-sede" placeholder="seleccionar" required>
             <ion-select-option *ngFor="let s of sedes">{{ s.sede }}</ion-select-option>
           </ion-select> 
         </ion-item>
         <ion-item lines="full">
-          <ion-label color="duoc" position="floating">contraseña</ion-label>
+          <ion-label color="duoc" position="floating">{{ "contraseña" | translate }}</ion-label>
           <ion-input  formControlName="psw" placeholder="Ingrese contraseña" type="password"></ion-input>
         </ion-item>
         <ion-item lines="full">
-          <ion-label color="duoc" position="floating">confirmacion contraseña</ion-label>
+          <ion-label color="duoc" position="floating">{{ "confirmacion contraseña" | translate }}</ion-label>
           <ion-input placeholder="volver a ingresar contraseña" type="password" [(ngModel)]="verificar_password"
           [ngModelOptions]="{standalone: 'true'}"></ion-input>
         </ion-item>
         <ion-button class="login-buttom" color="duoc" type="submit" expand="full"  shape="round" [disabled]="!usuario.valid">
-          registrarse
+          {{ "registrarse" | translate }}
         </ion-button>
         <ion-button class="repass-buttom" color="duoc" fill="outline" expand="full" shape="round" routerLink="/login">
-          volver
+          {{ "volver" | translate }}
         </ion-button>
       </form>
     </div>

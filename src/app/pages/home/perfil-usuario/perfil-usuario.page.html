@@ -3,7 +3,7 @@
     <ion-buttons slot="start">
       <ion-back-button></ion-back-button>
     </ion-buttons>
-    <ion-title>Mi Perfil</ion-title>
+    <ion-title>{{ "mi perfil" | translate }}</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -27,22 +27,22 @@
     
         </ion-item>
         <ion-card-header>
-          <ion-card-title>Informacion</ion-card-title>
+          <ion-card-title>{{ "informacion" | translate }}</ion-card-title>
         </ion-card-header>
         <ion-card-content>
           <ion-item lines="full" *ngIf="usuario">
-            <ion-label>Correo: {{usuario.correo}}</ion-label>
+            <ion-label>{{ "correo" | translate }}: {{usuario.correo}}</ion-label>
             <ion-buttons slot="end">
               <ion-back-button></ion-back-button>
             </ion-buttons>
           </ion-item>
           <ion-item lines="full" *ngIf="usuario">
-            <ion-label>Tipo: {{ usuario.tipo}}</ion-label>
+            <ion-label>{{ "tipo" | translate }}: {{ usuario.tipo}}</ion-label>
           </ion-item>
           <ion-accordion-group>
             <ion-accordion>
               <ion-item lines="full" slot="header" color="light" *ngIf="usuario">
-                <ion-label>Sede: {{ usuario.sede.sede }}</ion-label>
+                <ion-label>{{ "sede" | translate }}: {{ usuario.sede.sede }}</ion-label>
               </ion-item>
               <div class="ion-padding" slot="content" id="map"></div>
             </ion-accordion>
@@ -57,9 +57,9 @@
       <ion-content>
         
         <ion-toolbar>
-          <ion-title>Mi Ubicacion</ion-title>
+          <ion-title>{{ "mi ubicacion" | translate }}</ion-title>
           <ion-buttons slot="end">
-            <ion-button color="light" (click)="modal.dismiss()">Cerrar</ion-button>
+            <ion-button color="light" (click)="modal.dismiss()">{{ "cerrar" | translate }}</ion-button>
           </ion-buttons>
         </ion-toolbar>
         <div class="mapa-container">

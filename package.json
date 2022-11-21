@@ -28,11 +28,14 @@
     "@ionic-native/barcode-scanner": "^5.36.0",
     "@ionic/angular": "^6.1.9",
     "@ionic/cordova-builders": "^7.0.0",
+    "@ngx-translate/core": "^14.0.0",
+    "@ngx-translate/http-loader": "^7.0.0",
     "@techiediaries/ngx-qrcode": "^9.1.0",
     "cordova-android": "10.1.2",
     "firebase": "^9.14.0",
     "ionicons": "^6.0.3",
     "rxjs": "~6.6.0",
+    "sweetalert2": "^11.6.10",
     "zone.js": "~0.11.4"
   },
   "devDependencies": {

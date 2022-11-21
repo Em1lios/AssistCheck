@@ -25,10 +25,10 @@ export class LoginPage implements OnInit {
     this.db.login(this.usuario.value.correo,this.usuario.value.psw).then(
       () => {
         this.router.navigateByUrl('/home')
-        this.interactions.succesToast('usuario ingresado con exito!')
+        this.interactions.succesSweet('usuario ingresado con exito!')
     },
       (Error) => {
-        this.interactions.succesToast('Error usuario o contraseña incorrectos!')
+        this.interactions.errorSweet('Error usuario o contraseña incorrectos!')
       }
     )
   }

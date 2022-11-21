@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { Seccion, SeccionHome, Usuario } from 'src/app/interface/models';
 import { FirebaseService } from 'src/app/services/firebase.service';
 import { InteractionService } from 'src/app/services/interaction.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-home',
@@ -15,12 +16,14 @@ export class HomePage {
   profeTemp: Usuario;
 
   secciones : SeccionHome[];
-
+  langs: string[] = [];
   constructor(
     private db: FirebaseService,
     private router: Router,
-    private interactions: InteractionService
+    private interactions: InteractionService,
+    private translateService:TranslateService
   ) {
+    this.langs = this.translateService.getLangs();
     this.getUsuario();
   }
 
@@ -38,7 +41,11 @@ export class HomePage {
   logOut() {
     this.db.logout();
     this.router.navigateByUrl('/login');
-    this.interactions.succesToast('se ha cerrado la session con exito!');
+    this.interactions.succesSweet('se ha cerrado la session con exito!');
+  }
+
+  changeLang(event) {
+    this.translateService.use(event.detail.value);
   }
 
   ejecuta(){

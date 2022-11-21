@@ -52,26 +52,26 @@ export class AdminSeccionPage implements OnInit {
   }
 
   agregar() {
-    if (this.seccion.value.id == '' || this.seccion.value.id == null ) {
+    if (this.seccion.value.id === '' || this.seccion.value.id === null ) {
       const idtemp = this.db.getId();
       this.seccion.value.id = idtemp;
       this.db.createDoc(this.seccion.value, 'secciones', idtemp).then((res) => {
         this.interactions.closeLoading();
-        this.interactions.succesToast('usuario registrado con exito!!');
+        this.interactions.succesSweet('usuario registrado con exito!!');
       });
     } else {
       this.db
         .createDoc(this.seccion.value, 'secciones', this.seccion.value.id)
         .then((res) => {
           this.interactions.closeLoading();
-          this.interactions.succesToast('usuario registrado con exito!!');
+          this.interactions.succesSweet('usuario registrado con exito!!');
         });
     }
   }
 
   eliminar(id: string) {
     this.db.deleteDoc('secciones', id).then(() => {
-      this.interactions.succesToast('eliminado con exito');
+      this.interactions.succesSweet('eliminado con exito');
     });
   }
   async buscar(id: string) {
@@ -82,6 +82,9 @@ export class AdminSeccionPage implements OnInit {
     });
   }
 
+  limpiar(){
+    this.seccion.reset();
+  }
   agregarAlumno(){
     this.db.addAlumnoSeccion(this.seccion.value.id,this.newAlumno)
 

@@ -6,25 +6,23 @@
       </div>
       <form [formGroup]="usuario" (ngSubmit)="login()">
         <ion-item>
-          <ion-label color="duoc" position="floating">usuario</ion-label>
+          <ion-label color="duoc" position="floating">{{ "usuario" | translate }}</ion-label>
           <ion-input formControlName="correo" type="email" placeholder="Ingrese correo"></ion-input>
         </ion-item>
         <ion-item>
-          <ion-label color="duoc" position="floating">contraseña</ion-label>
+          <ion-label color="duoc" position="floating">{{ "contraseña" | translate }}</ion-label>
           <ion-input  formControlName="psw" placeholder="Ingrese contraseña" type="password"></ion-input>
         </ion-item>
         <ion-button class="login-buttom" color="duoc" type="submit" expand="full"  shape="round" [disabled]="!usuario.valid">
-          ingresar
+          {{ "iniciar sesion" | translate }}
         </ion-button>
         <ion-button class="repass-buttom" color="duoc" fill="outline" expand="full" shape="round" routerLink="/registro">
-          registrarse
+          {{ "registrarse" | translate }}
         </ion-button>
         <ion-button class="repass-buttom" color="dark" fill="clear" expand="full" shape="round" routerLink="/recuperar-psw">
-          ¿Olvidaste tu contraseña?
+          {{ "olvide mi contraseña" | translate }}
         </ion-button>
-
       </form>
     </div>
   </div>
 </ion-content>
-<!-- [disabled]="!usuario.valid" -->

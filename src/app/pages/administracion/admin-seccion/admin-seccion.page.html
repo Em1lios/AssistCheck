@@ -3,39 +3,39 @@
     <ion-buttons slot="start">
       <ion-back-button></ion-back-button>
     </ion-buttons>
-    <ion-title>administrar secciones</ion-title>
+    <ion-title>{{ "administrar" | translate }} {{ "seccion" | translate }}</ion-title>
   </ion-toolbar>
 </ion-header>
 <ion-content>
   <div class="i-content ion-justify-content-center ion-align-items-center">
     <div class="i-content-div ion-margin">
-      <form class="form" [formGroup]="seccion" (ngSubmit)="agregar()">
+      <form class="form ion-margin-top" [formGroup]="seccion" (ngSubmit)="agregar()">
         <ion-item lines="full">
-          <ion-label color="duoc" position="floating">codigo: </ion-label>
+          <ion-label color="duoc" position="floating">{{ "codigo" | translate }}: </ion-label>
           <ion-input formControlName="codigo" type="text" placeholder="PGY4121"></ion-input>
         </ion-item>
         <ion-item lines="full">
-          <ion-label color="duoc" position="floating">Nombre seccion: </ion-label>
+          <ion-label color="duoc" position="floating">{{ "nombre seccion" | translate }}: </ion-label>
           <ion-input formControlName="nombre" type="text" placeholder="ingrese nombre completo"></ion-input>
         </ion-item>
         <ion-item lines="full">
-          <ion-label color="duoc" position="floating">profesor: </ion-label>
+          <ion-label color="duoc" position="floating">{{ "profesor" | translate }}: </ion-label>
           <ion-input formControlName="profesor" type="text" placeholder="ingrese id profesor"></ion-input>
         </ion-item>
         <ion-accordion-group>
           <ion-accordion>
             <ion-item lines="full" slot="header" color="light">
-              <ion-label class="">alumnos: </ion-label>
+              <ion-label class="">{{ "alumnos" | translate }}: </ion-label>
             </ion-item>
             <div class="ion-padding" slot="content">
               <ion-item>
-                <ion-label color="duoc">alumno: </ion-label>
+                <ion-label color="duoc">{{ "alumno" | translate }}: </ion-label>
                 <ion-input placeholder="ingrese id alumno" type="text"  [(ngModel)]="newAlumno"
                 [ngModelOptions]="{standalone: 'true'}"></ion-input>  
                 <ion-icon color="success" slot="end" name="person-add-outline" (click)="agregarAlumno()"></ion-icon>
               </ion-item>
              <ion-list>
-              <ion-title>lista alumnos</ion-title>
+              <ion-title>{{ "lista" | translate }} {{ "alumnos" | translate }}</ion-title>
                 <ion-item lines="full" *ngFor="let aux of alumnos">
                   <ion-label>{{ aux }}</ion-label>
                   <ion-icon color="danger" slot="end" name="trash-outline" (click)="eliminarAlumno(aux)"></ion-icon>
@@ -45,16 +45,17 @@
           </ion-accordion>
         </ion-accordion-group>
         <ion-item lines="full">
-          <ion-label color="duoc" position="floating">sigla</ion-label>
+          <ion-label color="duoc" position="floating">{{ "sigla" | translate }}: </ion-label>
           <ion-input  formControlName="sigla" placeholder="005D" type="text"></ion-input>
         </ion-item>
-        <ion-button color="duoc" type="submit"  shape="round" [disabled]="!seccion.valid">
-          agregar o catualizar
-        </ion-button>
-        <ion-button  color="duoc" type="submit"  shape="round" fill="outline">
-          limpiar
+        <ion-button color="duoc" type="submit" expand="full" shape="round" [disabled]="!seccion.valid">
+          {{ "agregar o actualizar" | translate }}
         </ion-button>
       </form>
+        <ion-button  color="duoc" type="submit" expand="full" shape="round" fill="outline" (click)="limpiar()">
+          {{ "limpiar" | translate }}
+        </ion-button>
+     
       <ion-list>
         <ion-item lines="full" *ngFor="let aux of secciones">
           <ion-label>{{ aux.nombre }}_{{ aux.sigla }}</ion-label>

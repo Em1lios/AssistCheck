@@ -22,6 +22,7 @@ declare var google;
 export class DetalleSeccionPage implements OnInit {
 
   scanedCode = null;
+  mapa: any;
   clases: Clase[];
 
   usuario: Usuario;
@@ -146,14 +147,21 @@ export class DetalleSeccionPage implements OnInit {
           if(distanciaSede <= 70){
             if(seccionId === aux.get('id1')){
               this.cambiarAsistenciaAlumno(seccionId,claseId).then(
-                (res)=>{this.interactions.succesToast('presente!')}
+                (res)=>{this.interactions.succesSweet('presente!')}
               );
             } else {
-              this.interactions.errorToast('QR de otra seccion')
+              this.interactions.errorSweet('QR de otra seccion')
             }
   
           }else {
-            this.interactions.errorToast('no se encuentra cerca de la sede')
+            var map: HTMLElement = document.getElementById('map');
+            this.lineInit(res.coords.latitude,res.coords.longitude,this.usuario.sede.localizacion.latitude,this.usuario.sede.localizacion.longitude)
+            this.mapInit(res.coords.latitude, res.coords.longitude,map);
+            this.cargarMarcador(
+              this.usuario.sede.localizacion.latitude,
+              this.usuario.sede.localizacion.longitude
+            );
+            
           } 
         });
       });
@@ -192,10 +200,38 @@ export class DetalleSeccionPage implements OnInit {
           return actualizacion
         });
   }
+  cargarMarcador(lat_ = 0, lon_ = 0) {
+    new google.maps.Marker({
+      position: { lat: lat_, lng: lon_ },
+      map: this.mapa,
+    });
+  }
 
   getUbicacionActual(): Promise<any> {
     return new Promise((resolve, reject) => {
       navigator.geolocation.getCurrentPosition(resolve, reject);
     });
   }
+  mapInit(lat_ = 0, lon_ = 0, map) {
+    this.mapa = new google.maps.Map(map, {
+      center: { lat: lat_, lng: lon_ },
+      zoom: 18,
+    });
+  }
+
+  lineInit(lat1 = 0, lng1 = 0,lat2 = 0, lng2 = 0) {
+
+  const linea = new google.maps.Polyline({
+    path: [
+      { lat: lat1, lng: lng1 },
+      { lat: lat2, lng: lng2 },
+    ],
+    geodesic: true,
+    strokeColor: "#FF0000",
+    strokeOpacity: 1.0,
+    strokeWeight: 2,
+  });
+
+  linea.setMap(this.mapa);
+}
 }

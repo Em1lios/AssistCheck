@@ -30,11 +30,7 @@ const routes: Routes = [
   {
     path: 'admin-seccion',
     loadChildren: () => import('./pages/administracion/admin-seccion/admin-seccion.module').then( m => m.AdminSeccionPageModule)
-  },
-  {
-    path: 'admin-user',
-    loadChildren: () => import('./pages/administracion/admin-user/admin-user.module').then( m => m.AdminUserPageModule)
-  },
+  }
 ];
 
 @NgModule({
