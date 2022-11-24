@@ -20,6 +20,7 @@ export class PerfilUsuarioPage implements OnInit {
   usuario: Usuario;
 
   mapa: any;
+  mapageo: any;
 
   distancia: number;
 
@@ -69,6 +70,12 @@ export class PerfilUsuarioPage implements OnInit {
       zoom: 18,
     });
   }
+  mapInitgeo(lat_ = 0, lon_ = 0, map) {
+    this.mapageo = new google.maps.Map(map, {
+      center: { lat: lat_, lng: lon_ },
+      zoom: 18,
+    });
+  }
 
   cargarMarcador(lat_ = 0, lon_ = 0) {
     new google.maps.Marker({
@@ -76,12 +83,17 @@ export class PerfilUsuarioPage implements OnInit {
       map: this.mapa,
     });
   }
+  cargarMarcadormiUbicacion(lat_ = 0, lon_ = 0) {
+    new google.maps.Marker({
+      position: { lat: lat_, lng: lon_ },
+      map: this.mapageo,
+    });
+  }
   miUbicacion() {
     this.getUbicacionActual().then((res) => {
       var mapGeo: HTMLElement = document.getElementById('mapGeo');
-
-      this.mapInit(res.coords.latitude, res.coords.longitude, mapGeo);
-      this.cargarMarcador(res.coords.latitude, res.coords.longitude);
+      this.mapInitgeo(res.coords.latitude, res.coords.longitude, mapGeo);
+      this.cargarMarcadormiUbicacion(res.coords.latitude, res.coords.longitude);
     });
   }
 

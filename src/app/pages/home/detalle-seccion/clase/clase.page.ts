@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { concat } from 'rxjs';
 import {
   AlumnoClase,
   Clase,
   SeccionHome,
   Usuario,
 } from 'src/app/interface/models';
+import { NgxQrcodeErrorCorrectionLevels } from '@techiediaries/ngx-qrcode';
 import { FirebaseService } from 'src/app/services/firebase.service';
 import { InteractionService } from 'src/app/services/interaction.service';
 
@@ -19,6 +19,7 @@ export class ClasePage implements OnInit {
   clase: Clase;
 
   title = 'app';
+  errorCorrectionLevel =  NgxQrcodeErrorCorrectionLevels.QUARTILE;
   elementType = 'url';
   value = '';
 
@@ -110,4 +111,5 @@ export class ClasePage implements OnInit {
     })
 
   }
+
 }

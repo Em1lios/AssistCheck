@@ -9,7 +9,7 @@ export interface Seccion {
 
 export interface  Clase{
     id: string;
-    alumnos : [];
+    alumnos : AlumnoClase[];
     fecha: string;
     numero: number;
 }
@@ -55,6 +55,7 @@ export interface Usuario {
         }
     };
     tipo: string;
+    img_usuario:string;
 
 }
 export interface FireAuth {

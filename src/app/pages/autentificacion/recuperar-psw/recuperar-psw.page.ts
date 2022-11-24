@@ -12,4 +12,7 @@ export class RecuperarPswPage implements OnInit {
   ngOnInit() {
   }
 
+  modificarPasslink(){
+    
+  }
 }

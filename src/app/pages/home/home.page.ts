@@ -13,6 +13,8 @@ import { TranslateService } from '@ngx-translate/core';
 export class HomePage {
   usuario: Usuario;
 
+  idioma:string;
+
   profeTemp: Usuario;
 
   secciones : SeccionHome[];

@@ -46,7 +46,7 @@ export class InteractionService {
       icon: 'error',
       title:  mensaje ,
       showConfirmButton: false,
-      timer: 2000,
+      timer: 3000,
       heightAuto: false
     })
   }

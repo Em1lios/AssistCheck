@@ -28,7 +28,7 @@
         <ion-item lines="full">
           <ion-label color="duoc" position="floating">{{ "confirmacion contraseña" | translate }}</ion-label>
           <ion-input placeholder="volver a ingresar contraseña" type="password" [(ngModel)]="verificar_password"
-          [ngModelOptions]="{standalone: 'true'}"></ion-input>
+          [ngModelOptions]="{standalone: true}"></ion-input>
         </ion-item>
         <ion-button class="login-buttom" color="duoc" type="submit" expand="full"  shape="round" [disabled]="!usuario.valid">
           {{ "registrarse" | translate }}

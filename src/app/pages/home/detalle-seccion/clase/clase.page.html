@@ -9,7 +9,10 @@
 
 <ion-content>
   <div *ngIf="usuario && clase" class="i-content ion-justify-content-center">
-    <div *ngIf="usuario.tipo ==='profesor'" class="i-content-div ion-justify-content-center">
+    <div
+      *ngIf="usuario.tipo ==='profesor'"
+      class="i-content-div ion-justify-content-center"
+    >
       <ion-card>
         <ion-card-header>
           <ion-label>
@@ -21,35 +24,48 @@
           <ion-accordion-group>
             <ion-accordion>
               <ion-item lines="full" slot="header" color="light">
-                <ion-label slot="start">{{ "codigo qr" | translate }}</ion-label>
+                <ion-label slot="start"
+                  >{{ "codigo qr" | translate }}</ion-label
+                >
                 <ion-icon slot="end" name="qr-code-outline"></ion-icon>
               </ion-item>
               <div slot="content" class="div-qr">
-                <ngx-qrcode class="qrcode" 
-  [elementType]="elementType" 
-  [value]="value"
-  [width]="500"
-  cssClass="aclass"
-  errorCorrectionLevel="Q">
-</ngx-qrcode>
-                
+                <ngx-qrcode
+                  class="qrcode"
+                  [value]="value"
+                  [width]="500"
+                  [errorCorrectionLevel]="errorCorrectionLevel"
+                >
+                </ngx-qrcode>
               </div>
             </ion-accordion>
           </ion-accordion-group>
-          
         </ion-card-content>
       </ion-card>
       <ion-card>
         <ion-card-content>
           <ion-item lines="full" slot="header" color="light">
-            <ion-label>{{ "lista" | translate }} {{ "alumnos" | translate }}: </ion-label>
+            <ion-label
+              >{{ "lista" | translate }} {{ "alumnos" | translate }}:
+            </ion-label>
           </ion-item>
           <ion-item lines="full" *ngFor="let aux of clase.alumnos">
             <ion-label>{{ aux.nombre }}</ion-label>
-            <ion-select  (ionChange)="handleChange($event)" interface="popover" placeholder="asistencia" value="{{aux.id_Alumno}}|{{aux.asistencia}}">
-              <ion-select-option value="{{aux.id_Alumno}}|presente">presente</ion-select-option>
-              <ion-select-option value="{{aux.id_Alumno}}|ausente">ausente</ion-select-option>
-              <ion-select-option value="{{aux.id_Alumno}}|justificado">justificado</ion-select-option>
+            <ion-select
+              (ionChange)="handleChange($event)"
+              interface="popover"
+              placeholder="asistencia"
+              value="{{aux.id_Alumno}}|{{aux.asistencia}}"
+            >
+              <ion-select-option value="{{aux.id_Alumno}}|presente"
+                >presente</ion-select-option
+              >
+              <ion-select-option value="{{aux.id_Alumno}}|ausente"
+                >ausente</ion-select-option
+              >
+              <ion-select-option value="{{aux.id_Alumno}}|justificado"
+                >justificado</ion-select-option
+              >
             </ion-select>
           </ion-item>
         </ion-card-content>
