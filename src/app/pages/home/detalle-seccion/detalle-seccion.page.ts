@@ -4,6 +4,7 @@ import { BarcodeScanner } from '@ionic-native/barcode-scanner/ngx';
 import {
   AlumnoDetalle,
   Clase,
+  ClaseAl,
   Seccion,
   SeccionHome,
   Usuario,
@@ -24,12 +25,14 @@ export class DetalleSeccionPage implements OnInit {
   mapageo: any;
   mapa: any;
   clases: Clase[];
+  clasesAl: ClaseAl[];
 
   usuario: Usuario;
 
   profesor: Usuario;
 
   seccion: Seccion;
+  codigoClase: string;
 
   alumnos: AlumnoDetalle[];
 
@@ -56,14 +59,18 @@ export class DetalleSeccionPage implements OnInit {
         this.usuario = res;
         this.ejecuta();
       })
+    ).catch(
+      (error)=>{
+        this.router.navigateByUrl('/login');
+        this.interactions.alertSwee('s')
+      }
     );
   }
 
   ejecuta() {
     this.actRoute.paramMap.subscribe((paramMap) => {
-      this.db
-        .getDoc<Seccion>('secciones', paramMap.get('id1'))
-        .subscribe((res) => {
+      this.db.getDoc<Seccion>('secciones', paramMap.get('id1')).subscribe(
+        (res) => {
           this.seccion = res;
           this.db.getDoc<Usuario>('usuarios', res.profesor).subscribe((res) => {
             this.profesor = res;
@@ -75,24 +82,49 @@ export class DetalleSeccionPage implements OnInit {
               nombre: '',
               rut: '',
             };
-            this.db.getDoc<Usuario>('usuarios', aux).subscribe((res) => {
-              alumnoTemp.id = res.id;
-              alumnoTemp.nombre = res.nombre;
-              alumnoTemp.rut = res.rut;
-            });
+          this.db.getDoc<Usuario>('usuarios', aux).subscribe((res) => {
+            alumnoTemp.id = res.id;
+            alumnoTemp.nombre = res.nombre;
+            alumnoTemp.rut = res.rut;
+          });
             AlumnosTemp.push(alumnoTemp);
           });
           this.alumnos = AlumnosTemp;
         });
-      this.db
-        .getSubCollection<Clase>('secciones', 'clases', paramMap.get('id1'))
-        .subscribe((res) => {
-          const clasesTemp = res.sort((p1, p2) =>
+      console.log(this.usuario.tipo)
+      if(this.usuario.tipo === 'alumno'){
+      this.db.getSubCollection<Clase>('secciones', 'clases', paramMap.get('id1')).subscribe(
+        (res) => {
+          var clasesAlumnoTemp = [];
+          res.forEach(element => {
+            var claseAlumnoTemp = { id: '', alumnos: [], fecha: '', numero: 0, asistencia: ''};
+            claseAlumnoTemp.id = element.id;
+            claseAlumnoTemp.alumnos = element.alumnos;
+            claseAlumnoTemp.fecha = element.fecha;
+            claseAlumnoTemp.numero = element.numero;
+            element.alumnos.forEach(element => {
+               if(element.id_Alumno === this.usuario.id){
+                claseAlumnoTemp.asistencia = element.asistencia
+               }
+            });
+            clasesAlumnoTemp.push(claseAlumnoTemp)
+          });
+          const clasesTemp = clasesAlumnoTemp.sort((p1, p2) =>
             p1.numero < p2.numero ? 1 : p1.numero > p2.numero ? -1 : 0
           );
-          this.clases = clasesTemp;
+          this.clasesAl = clasesTemp;
+          console.log(this.clasesAl)
         });
-    });
+      }else{
+        this.db.getSubCollection<Clase>('secciones', 'clases', paramMap.get('id1')).subscribe(
+        (res) => {
+          const clasesTemp = res.sort((p1, p2) =>
+            p1.numero < p2.numero ? 1 : p1.numero > p2.numero ? -1 : 0
+        );
+        this.clases = clasesTemp;
+        console.log(this.clases )
+      });
+    }});
   }
 
   createClase() {
@@ -206,22 +238,63 @@ export class DetalleSeccionPage implements OnInit {
             alumnosTemp.push(aux);
           }
         });
-        var claseTemp = {
-          id: res.data().id,
-          alumnos: alumnosTemp,
-          fecha: res.data().fecha,
-          numero: res.data().numero,
-        };
-
-        const actualizacion = this.db.createSubCollDoc(
-          claseTemp,
+        this.db.UpdateAlumnoClase(
+          alumnosTemp,
           'secciones',
           'clases',
           seccionId,
           res.id
-        );
-        return actualizacion;
+        ).then((res)=>{
+          return true
+        }).catch((err)=>{return false});
       });
+  }
+
+  marcarAsistencia(){
+    this.actRoute.paramMap.subscribe((aux) => {
+      this.db.getSubCollDocOnce<Clase>('secciones','clases',aux.get('id1'),this.codigoClase).subscribe((res)=>{
+        this.getUbicacionActual().then((res) => {
+          var miUbicacion = new google.maps.LatLng(
+            res.coords.latitude,
+            res.coords.longitude
+          );
+          var sedeCoords = new google.maps.LatLng(
+            this.usuario.sede.localizacion.latitude,
+            this.usuario.sede.localizacion.longitude
+          );
+          let distanciaSede = google.maps.geometry.spherical.computeDistanceBetween(
+            miUbicacion,
+            sedeCoords
+          );
+          if (distanciaSede <= 70) {
+            this.interactions.closeLoading();
+            this.setOpen(true);
+            this.mapafunc();
+            return this.interactions.errorSweet(
+              'Error te encuentras a ' +
+                distanciaSede.toFixed(0) +
+                ' de la sede '
+            );
+          }
+          
+          return this.cambiarAsistenciaAlumno(aux.get('id1'),this.codigoClase).then(
+            (res) => {
+              console.log(res)
+              this.interactions.closeLoading();
+              this.codigoClase ='';
+              this.interactions.succesSweet('presente!');
+            },
+            (error)=>{ 
+              console.log('codigo invalido!');
+            }
+          );
+        });
+      },
+      (error)=>{ 
+       console.log('invalido')
+      }
+      );
+    });
   }
 
   /* metodo que devuelve la ubicacion actual del usuario */

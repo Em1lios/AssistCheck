@@ -42,7 +42,20 @@ export class AdminSeccionPage implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.cargarSecciones();
+    this.getUsuario();
+  }
+
+  async getUsuario() {
+    await this.db.getAuthUser().then((res) =>
+     this.cargarSecciones() 
+      
+    ).catch(
+      
+      (error)=>{
+        this.router.navigateByUrl('/login');
+        this.interactions.alertSwee('s')
+      }
+    );
   }
 
   cargarSecciones() {

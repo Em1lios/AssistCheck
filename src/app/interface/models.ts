@@ -13,6 +13,14 @@ export interface  Clase{
     fecha: string;
     numero: number;
 }
+export interface  ClaseAl{
+    id: string;
+    alumnos : AlumnoClase[];
+    fecha: string;
+    numero: number;
+    asistencia: string;
+}
+
 
 export interface SeccionHome {
     id: string;

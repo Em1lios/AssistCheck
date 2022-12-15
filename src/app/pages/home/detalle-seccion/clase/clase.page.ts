@@ -52,6 +52,11 @@ export class ClasePage implements OnInit {
         this.usuario = res;
         this.ejecuta();
       })
+    ).catch(
+      (error)=>{
+        this.router.navigateByUrl('/login');
+        this.interactions.alertSwee('s')
+      }
     );
   }
 
@@ -97,15 +102,9 @@ export class ClasePage implements OnInit {
       }
     });
 
-    var claseTemp = {
-      id: this.clase.id,
-      alumnos: alumnosTemp,
-      fecha: this.clase.fecha,
-      numero: this.clase.numero,
-    };
     this.actRoute.paramMap.subscribe(
       (aux)=>{
-        this.db.createSubCollDoc(claseTemp,'secciones','clases',aux.get('id1'),aux.get('id2')).then(
+        this.db.UpdateAlumnoClase(alumnosTemp,'secciones','clases',aux.get('id1'),aux.get('id2')).then(
     () => {}
     );
     })

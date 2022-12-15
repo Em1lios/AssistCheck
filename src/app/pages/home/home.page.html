@@ -11,7 +11,7 @@
     </ion-item>
     <ion-item
       lines="full"
-      *ngIf="usuario && usuario.tipo=='admin'"
+      *ngIf="usuario && usuario.tipo=='admin' && emailVeri==true"
       routerLink="/admin-seccion"
     >
       <ion-label>{{ "administracion secciones" | translate }}</ion-label>
@@ -19,9 +19,13 @@
     </ion-item>
     <ion-item class="select">
       <ion-label>{{ "selecciona" | translate }}</ion-label>
-      <ion-select cancelText="Cancel" [(ngModel)]="idioma" placeholder="Selecciona" (ionChange)="changeLang($event)">
+      <ion-select cancelText="Cancel" [(ngModel)]="idioma" placeholder="Selecciona" [value]="idioma" (ionChange)="changeLang($event)">
         <ion-select-option *ngFor="let lang of langs">{{ lang }}</ion-select-option>
       </ion-select>
+    </ion-item>
+    <ion-item lines="full"  href="https://www.mediafire.com/file/c5qzavd5734qqwd/app-debug.apk/file">
+      <ion-label>Descargar APK</ion-label>
+      <ion-icon slot="start" name="cloud-download-outline"></ion-icon>
     </ion-item>
     <ion-item (click)="logOut()" lines="full">
       <ion-label>{{ "cerrar sesion" | translate }}</ion-label>
@@ -41,7 +45,16 @@
   <ion-content class="ion-content-big">
     <div id="container ion-align-items-start">
       <div class="i-content ion-justify-content-center">
-        <div class="i-content-div ion-justify-content-center">
+        <ion-card *ngIf="emailVeri==false">
+          <ion-card-header>
+             <ion-card-title>verifica tu correo electronico </ion-card-title>
+             <ion-card-subtitle>para acceder a tu informacion necesitas verificar tu correo, haz click abajo y revisa tu correo, si no esta puede que se haya ido al span!</ion-card-subtitle>
+          </ion-card-header>
+          <ion-button (click)="sendVeri()" expand="block" color="warning" shape="round">
+            confirmar correo
+          </ion-button>
+        </ion-card>
+        <div class="i-content-div ion-justify-content-center" *ngIf="emailVeri==true"> 
           <h3 class="ion-padding-horizontal" *ngIf="usuario">{{ "bienvenido" | translate }}: {{ usuario.nombre }}</h3>
           <ion-item lines="none" *ngFor="let aux of secciones" [routerLink]="['/home', aux.id]" >
             <ion-card color="secondary" class="tarjeta-materias">
@@ -49,7 +62,6 @@
                 <ion-card-subtitle>{{aux.codigo}}</ion-card-subtitle>
                 <ion-card-title>{{aux.nombre}}_{{aux.sigla}}</ion-card-title>
               </ion-card-header>
-
               <ion-card-content>
                 <ion-item color="tertiary" lines="none">
                   <ion-label>

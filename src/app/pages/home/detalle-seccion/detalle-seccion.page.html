@@ -12,27 +12,20 @@
     <div class="i-content-div ion-justify-content-center">
       <ion-card>
         <ion-card-header>
-          <ion-label>
-            <h3>{{seccion.nombre}}_{{seccion.sigla}}</h3>
-            <p>{{seccion.codigo}}</p>
-          </ion-label>
+          
+          <ion-card-title>{{seccion.nombre}}_{{seccion.sigla}}</ion-card-title>
+          <ion-card-subtitle>{{seccion.codigo}}</ion-card-subtitle>
         </ion-card-header>
         <ion-card-content>
           <ion-item color="tertiary" lines="none">
-            <ion-label *ngIf="profesor"
-              >{{ "profesor" | translate }}: {{ profesor.nombre }}</ion-label
-            >
+            <ion-label *ngIf="profesor">{{ "profesor" | translate }}: {{ profesor.nombre }}</ion-label>
           </ion-item>
           <ion-accordion-group>
             <ion-accordion>
               <ion-item lines="full" slot="header" color="light">
-                <ion-label class="">{{ "alumnos" | translate }}: </ion-label>
+                <ion-card-title>{{ "lista" | translate }} {{ "alumnos" | translate }}</ion-card-title>
               </ion-item>
               <div slot="content">
-                <ion-title
-                  >{{ "lista" | translate }} {{ "alumnos" | translate
-                  }}</ion-title
-                >
                 <ion-item lines="full" *ngFor="let aux of alumnos">
                   <ion-label>{{ aux.nombre }}</ion-label>
                   <ion-label slot="end">{{aux.rut}}</ion-label>
@@ -44,23 +37,18 @@
       </ion-card>
       <ion-card>
         <ion-card-content>
-          <ion-button
-            *ngIf="usuario.tipo ==='profesor'"
-            (click)="createClase()"
-            expand="full"
-            fill="solid"
-            color="duoc"
-          >
+          <ion-button *ngIf="usuario.tipo ==='profesor'" (click)="createClase()" expand="full" fill="solid" color="duoc">
             {{ "generar clase" | translate }}
           </ion-button>
-          <ion-button
-            (click)="scanCode()"
-            expand="full"
-            fill="solid"
-            color="primary"
-          >
+          <ion-button (click)="scanCode()" expand="full" fill="solid" color="primary">
             {{ "escanear" | translate }} QR
           </ion-button>
+          <ion-item *ngIf="usuario.tipo=='alumno' || usuario.tipo == 'admin'">
+            <ion-input type="text" placeholder="ingrese codigo" [(ngModel)]="codigoClase"></ion-input> 
+            <ion-button color="success" (click)="marcarAsistencia()" slot="end">
+              marcar
+            </ion-button>
+          </ion-item>
           <ion-label *ngIf="scanedCode" class="">{{scanedCode}}</ion-label>
           <ion-accordion-group>
             <ion-accordion>
@@ -68,33 +56,23 @@
                 <ion-label class="">{{ "clases" | translate }}: </ion-label>
               </ion-item>
               <div slot="content" *ngIf="usuario.tipo ==='profesor'">
-                <ion-item
-                  lines="full"
-                  *ngFor="let aux of clases"
-                  (click)="goClase(aux.id)"
-                >
-                  <ion-label
-                    >{{ "clase" | translate }} {{aux.numero}}</ion-label
-                  >
+                <ion-item lines="full" *ngFor="let aux of clases" (click)="goClase(aux.id)" >
+                  <ion-label>{{ "clase" | translate }} {{aux.numero}}</ion-label>
                   <ion-label slot="end">{{ aux.fecha }}</ion-label>
                 </ion-item>
               </div>
-              <div
-                slot="content"
-                *ngIf="usuario.tipo ==='alumno' || usuario.tipo ==='admin'"
-              >
-                <ion-item lines="full" *ngFor="let aux of clases">
-                  <ion-label
-                    >{{ "clase" | translate }} {{aux.numero}}</ion-label
-                  >
-                  <ion-label slot="end">{{ aux.fecha }}</ion-label>
+              <div slot="content" *ngIf="usuario.tipo ==='alumno' || usuario.tipo ==='admin'">
+                <ion-item lines="full" *ngFor="let aux of clasesAl">
+                  <ion-label>{{ "clase" | translate }} {{aux.numero}}</ion-label>
+                  <ion-label color="success" slot="end" *ngIf="aux.asistencia=='presente'">{{ aux.asistencia}} <ion-icon name="checkmark-outline"></ion-icon></ion-label>
+                  <ion-label color="danger" slot="end" *ngIf="aux.asistencia=='ausente'">{{ aux.asistencia}}  <ion-icon name="close-outline"></ion-icon></ion-label>
+                  <ion-label color="primary" slot="end" *ngIf="aux.asistencia=='justificado'">{{ aux.asistencia}}  <ion-icon name="document-attach-outline"></ion-icon></ion-label>
                 </ion-item>
               </div>
             </ion-accordion>
           </ion-accordion-group>
         </ion-card-content>
       </ion-card>
-        <ion-icon name="close-circle" (click)="setOpen(true)"></ion-icon>
     </div>
   </div>
   <ion-modal #modal [isOpen]="isModalOpen">

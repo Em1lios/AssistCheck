@@ -51,19 +51,26 @@ export class InteractionService {
     })
   }
 
+  async alertSwee(men:string){
+    Swal.fire({
+      icon: 'info',
+      title: 'Oops...',
+      text: 'Sesion expirada!',
+      heightAuto: false
+    })
+  }
 
   async showLoading(mensaje:string) {
     this.loading = await this.load.create({
       message: mensaje,
     });
-
     await  this.loading.present();
   }
   
   async closeLoading() {
-  
     await this.loading.dismiss();
   }
+
 
   
 

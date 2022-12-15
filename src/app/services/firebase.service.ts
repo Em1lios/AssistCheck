@@ -91,6 +91,13 @@ export class FirebaseService {
       });
   }
 
+  UpdateAlumnoClase(data: any, path: string,subPath, id: string,idClase: string) {
+    const collection = this.db.collection(path);
+    return collection.doc(id).collection(subPath).doc(idClase).update({
+      alumnos: data,
+    });
+  }
+
   async login(correo, psw) {
     const { user } = await this.auth.signInWithEmailAndPassword(correo, psw);
     return user;

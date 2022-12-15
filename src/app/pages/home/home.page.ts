@@ -15,8 +15,9 @@ export class HomePage {
 
   idioma:string;
 
+  
   profeTemp: Usuario;
-
+  emailVeri:boolean;
   secciones : SeccionHome[];
   langs: string[] = [];
   constructor(
@@ -29,14 +30,38 @@ export class HomePage {
     this.getUsuario();
   }
 
-  ngOnInit() {}
+  ngOnInit(
+  ) {
+    
+  }
 
   async getUsuario() {
-    await this.db.getAuthUser().then((res) =>
-      this.db.getDoc<Usuario>('usuarios', res.uid).subscribe((res) => {
-        this.usuario = res;
-        this.ejecuta();
-      })
+    await this.db.getAuthUser().then((res) =>{
+      if (res.emailVerified){
+        this.emailVeri = res.emailVerified
+        this.db.getDoc<Usuario>('usuarios', res.uid).subscribe((res) => {
+          this.usuario = res;
+          this.ejecuta();
+        })
+      } else {
+        console.log(res.emailVerified + ' else');
+        this.emailVeri = res.emailVerified
+      
+      }
+      
+  }).catch(
+      (error)=>{
+        this.router.navigateByUrl('/login');
+        this.interactions.alertSwee('s')
+      }
+    );
+  }
+
+  sendVeri(){
+    this.db.verificacion().then(
+      (res)=>{
+        this.interactions.succesSweet('correo de verificacion enviado')
+      }
     );
   }
 
@@ -48,6 +73,22 @@ export class HomePage {
 
   changeLang(event) {
     this.translateService.use(event.detail.value);
+    this.idioma = event.detail.value
+   /*  if(event.detail.value == 'profesor'){
+      let correo = this.nombreusuario + '@profesor.duoc.cl'
+
+      return this.usuariofrom = correo
+    }
+    if(event.detail.value == 'profesor'){
+      let correo = this.nombreusuario + '@profesor.duoc.cl'
+
+      return this.usuariofrom = correo
+    }
+    if(event.detail.value == 'profesor'){
+      let correo = this.nombreusuario + '@profesor.duoc.cl'
+
+      return this.usuariofrom = correo
+    } */
   }
 
   ejecuta(){

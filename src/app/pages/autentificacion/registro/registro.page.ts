@@ -66,6 +66,7 @@ export class RegistroPage implements OnInit {
           sede: sede,
           tipo: tipo
         }
+
         this.db.createDoc(usuarioTemp,'usuarios',res.uid).then(
           (res) =>{
             this.router.navigateByUrl('/login')
@@ -92,7 +93,5 @@ export class RegistroPage implements OnInit {
     const index = correo.lastIndexOf('@');
     return correo.slice(index+1,correo.length)
   }
-
-  
 
 }

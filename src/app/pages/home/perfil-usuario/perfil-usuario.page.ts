@@ -21,7 +21,7 @@ export class PerfilUsuarioPage implements OnInit {
 
   mapa: any;
   mapageo: any;
-
+  emailVeri:boolean;
   distancia: number;
 
   geoPointUbicacion: { lat: any; lng: any };
@@ -38,9 +38,17 @@ export class PerfilUsuarioPage implements OnInit {
   async ionViewWillEnter(){
     this.getUsuario();
   }
-
+  
+  sendVeri(){
+    this.db.verificacion().then(
+      (res)=>{
+        this.interactions.succesSweet('correo de verificacion enviado')
+      }
+    );
+  }
   async getUsuario() {
-    await this.db.getAuthUser().then((res) =>
+    await this.db.getAuthUser().then((res) =>{
+      this.emailVeri = res.emailVerified
       this.db.getDoc<Usuario>('usuarios', res.uid).subscribe((res) => {
         this.usuario = res;
         var map: HTMLElement = document.getElementById('map');
@@ -61,6 +69,11 @@ export class PerfilUsuarioPage implements OnInit {
           
         });
       })
+  }).catch(
+      (error)=>{
+        this.router.navigateByUrl('/login');
+        this.interactions.alertSwee('s')
+      }
     );
   }
 

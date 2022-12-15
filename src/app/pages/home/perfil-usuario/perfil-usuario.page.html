@@ -10,6 +10,15 @@
 <ion-content>
   <div class="i-content ion-justify-content-center">
     <div class="i-content-div ion-margin ion-justify-content-center">
+      <ion-card *ngIf="emailVeri==false">
+        <ion-card-header>
+           <ion-card-title>verifica tu correo electronico </ion-card-title>
+           <ion-card-subtitle>para acceder a tu informacion necesitas verificar tu correo, haz click abajo y revisa tu correo, si no esta puede que se haya ido al span!</ion-card-subtitle>
+        </ion-card-header>
+        <ion-button (click)="sendVeri()" expand="block" color="warning" shape="round">
+          confirmar correo
+        </ion-button>
+      </ion-card>
       <ion-card>
         <ion-item>
           <ion-avatar *ngIf="usuario && usuario.img_usuario" slot="start">
