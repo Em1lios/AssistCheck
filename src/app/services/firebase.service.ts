@@ -42,15 +42,15 @@ export class FirebaseService {
   }
 
 
-  getSeccionUsuario<tipo>(id: string, tipoUser: string) {
+  getSeccionUsuario<tipo>(tipoUser: string,usuario:object) {
     const secciones = this.db.collection<tipo>('secciones', (ref) => {
         let query:
           | firebase.firestore.CollectionReference
           | firebase.firestore.Query = ref;
         if (tipoUser === 'profesor') {
-          query = query.where('profesor', '==', id);
+          query = query.where('profesor', '==', usuario);
         } else {
-          query = query.where('alumno', 'array-contains', id);
+          query = query.where('alumno', 'array-contains', usuario);
         }
         return query;
       }).valueChanges();
@@ -98,6 +98,17 @@ export class FirebaseService {
     });
   }
 
+  getUsuarioTipo<tipo>(tipoUsuario: string) {
+    const usuarios = this.db.collection<tipo>('usuarios', (ref) => {
+        let query:
+          | firebase.firestore.CollectionReference
+          | firebase.firestore.Query = ref;
+          query = query.where('tipo', '==', tipoUsuario);
+        return query;
+      }).valueChanges();
+      return usuarios;
+  }
+
   async login(correo, psw) {
     const { user } = await this.auth.signInWithEmailAndPassword(correo, psw);
     return user;
@@ -109,6 +120,12 @@ export class FirebaseService {
 
   async verificacion() {
     return (await this.auth.currentUser).sendEmailVerification();
+  }
+
+
+  async recupPass(correo:string){
+    const aux = await this.auth.sendPasswordResetEmail(correo);
+    return aux
   }
 
   async registrar(correo, psw) {

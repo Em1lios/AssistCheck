@@ -18,7 +18,7 @@
         </ion-card-header>
         <ion-card-content>
           <ion-item color="tertiary" lines="none">
-            <ion-label *ngIf="profesor">{{ "profesor" | translate }}: {{ profesor.nombre }}</ion-label>
+            <ion-label>{{ "profesor" | translate }}: {{ seccion.profesor.nom_completo }}</ion-label>
           </ion-item>
           <ion-accordion-group>
             <ion-accordion>
@@ -26,8 +26,8 @@
                 <ion-card-title>{{ "lista" | translate }} {{ "alumnos" | translate }}</ion-card-title>
               </ion-item>
               <div slot="content">
-                <ion-item lines="full" *ngFor="let aux of alumnos">
-                  <ion-label>{{ aux.nombre }}</ion-label>
+                <ion-item lines="full" *ngFor="let aux of seccion.alumno">
+                  <ion-label>{{ aux.nom_completo }}</ion-label>
                   <ion-label slot="end">{{aux.rut}}</ion-label>
                 </ion-item>
               </div>
@@ -40,7 +40,7 @@
           <ion-button *ngIf="usuario.tipo ==='profesor'" (click)="createClase()" expand="full" fill="solid" color="duoc">
             {{ "generar clase" | translate }}
           </ion-button>
-          <ion-button (click)="scanCode()" expand="full" fill="solid" color="primary">
+          <ion-button *ngIf="usuario.tipo ==='alumno'" (click)="scanCode()" expand="full" fill="solid" color="primary">
             {{ "escanear" | translate }} QR
           </ion-button>
           <ion-item *ngIf="usuario.tipo=='alumno' || usuario.tipo == 'admin'">

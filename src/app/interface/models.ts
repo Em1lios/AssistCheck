@@ -7,12 +7,15 @@ export interface Seccion {
     sigla:string;
 }
 
+
+
 export interface  Clase{
     id: string;
     alumnos : AlumnoClase[];
     fecha: string;
     numero: number;
 }
+
 export interface  ClaseAl{
     id: string;
     alumnos : AlumnoClase[];
@@ -29,7 +32,8 @@ export interface SeccionHome {
     nombre: string;
     profesor: {
         id:string,
-        nombre: string,
+        nom_completo: string,
+        rut:string
     };
     num_alumnos: number;
     sigla:string;
@@ -37,17 +41,20 @@ export interface SeccionHome {
 
 export interface AlumnoDetalle {
     id: string;
-    nombre: string;
+    nom_completo: string;
     rut: string;
   };
-
+  export interface ProfeDetalle {
+    id: string;
+    nom_completo: string;
+    rut: string;
+  };
   export interface AlumnoClase {
     
     asistencia:string
     id_Alumno:string,
     nombre:string,
     rut:string
-    
   };
 
 export interface Usuario {

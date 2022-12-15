@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Seccion, Sede, Usuario } from 'src/app/interface/models';
+import { AlumnoDetalle, ProfeDetalle, Seccion, Sede, Usuario } from 'src/app/interface/models';
 import { FirebaseService } from 'src/app/services/firebase.service';
 import { InteractionService } from 'src/app/services/interaction.service';
 
@@ -33,7 +33,8 @@ export class AdminSeccionPage implements OnInit {
 
   sedes: Sede[] = [];
   secciones: Seccion[] = [];
-  alumnos: any;
+  alumnos: AlumnoDetalle[] = [];
+  profesores:  ProfeDetalle[] = [];
 
   constructor(
     private db: FirebaseService,
@@ -46,9 +47,10 @@ export class AdminSeccionPage implements OnInit {
   }
 
   async getUsuario() {
-    await this.db.getAuthUser().then((res) =>
-     this.cargarSecciones() 
-      
+    await this.db.getAuthUser().then((res) =>{
+     this.cargarSecciones();
+     this.cargarProfesAlumnos();
+  }
     ).catch(
       
       (error)=>{
@@ -62,6 +64,44 @@ export class AdminSeccionPage implements OnInit {
     this.db.getCollection<Seccion>('secciones').subscribe((res) => {
       this.secciones = res;
     });
+  }
+
+  cargarProfesAlumnos() {
+    this.db.getUsuarioTipo<Usuario>('profesor').subscribe(
+      (res) => {
+        var profesorestemp = []
+        res.forEach(aux => {
+          var profesortemp = {
+            id: '',
+            nom_completo: '',
+            rut: '',
+          };
+          profesortemp.id = aux.id;
+          profesortemp.nom_completo = aux.nombre;
+          profesortemp.rut = aux.rut;
+          profesorestemp.push(profesortemp);
+        });
+        console.log(profesorestemp)
+        this.profesores = profesorestemp;
+      }
+    )
+    this.db.getUsuarioTipo<Usuario>('alumno').subscribe(
+      (res) => {
+        var alumnostemp = []
+        res.forEach(element => {
+          var alumnotemp = {
+            id: '',
+            nom_completo: '',
+            rut: '',
+          };
+          alumnotemp.id = element.id;
+          alumnotemp.nom_completo = element.nombre;
+          alumnotemp.rut = element.rut;
+          alumnostemp.push(alumnotemp);
+        });
+        this.alumnos = alumnostemp;
+      }
+    )
   }
 
   agregar() {
@@ -90,8 +130,6 @@ export class AdminSeccionPage implements OnInit {
   async buscar(id: string) {
     this.db.getDoc<Seccion>('secciones', id).subscribe((res) => {
       this.seccion.setValue(res);
-      this.alumnos = res.alumno;
-      (console.log(this.alumnos))
     });
   }
 
@@ -105,4 +143,17 @@ export class AdminSeccionPage implements OnInit {
   eliminarAlumno(id:string){
     this.db.deleteAlumnoSeccion(this.seccion.value.id,id)
   }
+
+  compareWith(o1, o2) {
+    if (!o1 || !o2) {
+      return o1 === o2;
+    }
+
+    if (Array.isArray(o2)) {
+      return o2.some((o) => o.id === o1.id);
+    }
+
+    return o1.id === o2.id;
+  }
+
 }

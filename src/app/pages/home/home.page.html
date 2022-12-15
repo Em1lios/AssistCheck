@@ -23,7 +23,7 @@
         <ion-select-option *ngFor="let lang of langs">{{ lang }}</ion-select-option>
       </ion-select>
     </ion-item>
-    <ion-item lines="full"  href="https://www.mediafire.com/file/c5qzavd5734qqwd/app-debug.apk/file">
+    <ion-item lines="full"  href="https://www.mediafire.com/file/wi1lavxz6lpj6y7/AssistCheck.apk/file">
       <ion-label>Descargar APK</ion-label>
       <ion-icon slot="start" name="cloud-download-outline"></ion-icon>
     </ion-item>
@@ -66,7 +66,7 @@
                 <ion-item color="tertiary" lines="none">
                   <ion-label>
                     <p>{{ "N° alumnos" | translate }}: {{ aux.num_alumnos }}</p>
-                    <p>{{ "profesor" | translate }}: {{aux.profesor.nombre}}</p>
+                    <p>{{ "profesor" | translate }}: {{aux.profesor.nom_completo}}</p>
                   </ion-label>
                 </ion-item>
               </ion-card-content>

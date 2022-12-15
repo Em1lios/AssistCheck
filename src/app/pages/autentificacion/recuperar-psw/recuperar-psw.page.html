@@ -5,9 +5,9 @@
   </ion-item>
   <ion-item >
     <ion-label color="duoc" class="email-label"  position="floating">{{ "correo" | translate }}: </ion-label>
-    <ion-input inputmode="email"></ion-input>
+    <ion-input inputmode="email" [(ngModel)]="correo"></ion-input>
   </ion-item>
-  <ion-button (click)="modificarPasslink()" class="recup-buttom" color="duoc"  expand="block"  shape="round">
+  <ion-button (click)="recupContra()" class="recup-buttom" color="duoc"  expand="block"  shape="round">
     {{ "recuperar" | translate }}
   </ion-button>
   <ion-button class="repass-buttom" color="duoc" fill="outline" expand="full" shape="round" routerLink="/login">

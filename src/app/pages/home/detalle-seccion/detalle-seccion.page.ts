@@ -31,7 +31,7 @@ export class DetalleSeccionPage implements OnInit {
 
   profesor: Usuario;
 
-  seccion: Seccion;
+  seccion: SeccionHome;
   codigoClase: string;
 
   alumnos: AlumnoDetalle[];
@@ -69,27 +69,9 @@ export class DetalleSeccionPage implements OnInit {
 
   ejecuta() {
     this.actRoute.paramMap.subscribe((paramMap) => {
-      this.db.getDoc<Seccion>('secciones', paramMap.get('id1')).subscribe(
+      this.db.getDoc<SeccionHome>('secciones', paramMap.get('id1')).subscribe(
         (res) => {
           this.seccion = res;
-          this.db.getDoc<Usuario>('usuarios', res.profesor).subscribe((res) => {
-            this.profesor = res;
-          });
-          var AlumnosTemp = [];
-          res.alumno.forEach((aux) => {
-            var alumnoTemp = {
-              id: '',
-              nombre: '',
-              rut: '',
-            };
-          this.db.getDoc<Usuario>('usuarios', aux).subscribe((res) => {
-            alumnoTemp.id = res.id;
-            alumnoTemp.nombre = res.nombre;
-            alumnoTemp.rut = res.rut;
-          });
-            AlumnosTemp.push(alumnoTemp);
-          });
-          this.alumnos = AlumnosTemp;
         });
       console.log(this.usuario.tipo)
       if(this.usuario.tipo === 'alumno'){
@@ -131,26 +113,29 @@ export class DetalleSeccionPage implements OnInit {
     var claseTemp = { id: '', alumnos: [], fecha: '', numero: 0 };
     var alumnosClaseTemp = [];
     const idClase = this.db.getId();
-    this.alumnos.forEach((aux) => {
+    this.seccion.alumno.forEach((aux) =>{ 
       var alumnoClaseTemp = {
         id_Alumno: '',
         nombre: '',
         rut: '',
         asistencia: '',
       };
-      console.log(aux);
+      console.log(aux+ ' create clase aux');
       alumnoClaseTemp.id_Alumno = aux.id;
-      alumnoClaseTemp.nombre = aux.nombre;
+      alumnoClaseTemp.nombre = aux.nom_completo;
       alumnoClaseTemp.rut = aux.rut;
       alumnoClaseTemp.asistencia = 'ausente';
       alumnosClaseTemp.push(alumnoClaseTemp);
     });
+
+
     claseTemp.alumnos = alumnosClaseTemp;
     var d = new Date();
     let day = d.toLocaleString();
     claseTemp.fecha = day;
     claseTemp.id = idClase;
     claseTemp.numero = this.clases.length.valueOf() + 1;
+    console.log(claseTemp);
     this.db
       .createSubCollDoc(
         claseTemp,

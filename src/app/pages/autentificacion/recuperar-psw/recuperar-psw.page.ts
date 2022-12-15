@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { FirebaseService } from 'src/app/services/firebase.service';
+import { InteractionService } from 'src/app/services/interaction.service';
 
 @Component({
   selector: 'app-recuperar-psw',
@@ -6,13 +8,18 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./recuperar-psw.page.scss'],
 })
 export class RecuperarPswPage implements OnInit {
+  correo:string;
 
-  constructor() { }
+  constructor(private db: FirebaseService, private interaction: InteractionService) { }
 
   ngOnInit() {
   }
 
-  modificarPasslink(){
-    
+  recupContra(){
+    this.db.recupPass(this.correo).then((res)=>{
+      this.interaction.succesSweet('correo de cambio de contraseña enviado');
+  })
   }
+
+  
 }

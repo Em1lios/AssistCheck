@@ -92,13 +92,19 @@ export class HomePage {
   }
 
   ejecuta(){
-    this.db.getSeccionUsuario<Seccion>(this.usuario.id, this.usuario.tipo).subscribe(
+    var usuTemp={
+      id: this.usuario.id,
+      nom_completo: this.usuario.nombre,
+      rut: this.usuario.rut
+    }
+    this.db.getSeccionUsuario<SeccionHome>(this.usuario.tipo,usuTemp).subscribe(
       (res) => {
+        
         var seccionesTemp = []
         res.forEach((aux) => {
           var seccionHome = {
             id: '',nombre: '',codigo: '',sigla: '',
-            alumno: [] ,profesor: { id: '', nombre: '', },
+            alumno: [] ,profesor: { id: '', nom_completo: '',rut:'' },
             num_alumnos: 0,
           };
           seccionHome.id = aux.id;
@@ -106,15 +112,13 @@ export class HomePage {
           seccionHome.codigo = aux.codigo;
           seccionHome.sigla = aux.sigla;
           seccionHome.alumno = aux.alumno;
-          this.db.getDoc<Usuario>('usuarios', aux.profesor).subscribe(
-            (res) => {
-            seccionHome.profesor.id = res.id;
-            seccionHome.profesor.nombre = res.nombre;
-          });
+         seccionHome.profesor = aux.profesor;
           seccionHome.num_alumnos = aux.alumno.length;
           seccionesTemp.push(seccionHome)
+          console.log(seccionHome)
         });
         this.secciones = seccionesTemp
+        console.log(this.secciones)
       });
   }
 }
